@@ -7,8 +7,8 @@ interface HeaderProps {
 
 export function Header({ onGetStarted }: HeaderProps) {
   return (
-    <header className="border-b border-line/60 bg-canvas/95 backdrop-blur">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 sm:px-8" aria-label="Main navigation">
+    <header className="border-b border-line/60 bg-canvas/95 px-5 py-5 backdrop-blur sm:px-8">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between" aria-label="Main navigation">
         <a className="group flex items-center gap-3 text-primary focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20" href="#top">
           <span className="flex size-11 items-center justify-center rounded-2xl bg-primary text-white shadow-sm transition group-hover:-rotate-3 group-hover:scale-105">
             <HeartHandshake className="size-5" strokeWidth={2.4} aria-hidden="true" />
