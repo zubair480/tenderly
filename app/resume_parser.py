@@ -137,6 +137,15 @@ def _first_sentences(text: str, max_sentences: int = 2, max_len: int = 280) -> s
 
 _NAME_WORD_RE = re.compile(r"^[A-Z][a-zA-Z'-]*\.?$")
 _NAME_BLOCKLIST = {"resume", "cv", "curriculum", "vitae", "resumé", "résumé", "profile"}
+_GENERIC_SKILLS_FALLBACK = ["teamwork", "communication", "reliability"]
+
+
+def _join_natural(items: list[str]) -> str:
+    if len(items) == 1:
+        return items[0]
+    if len(items) == 2:
+        return f"{items[0]} and {items[1]}"
+    return f"{', '.join(items[:-1])}, and {items[-1]}"
 
 
 def _extract_name(resume_text: str) -> str | None:
@@ -210,17 +219,19 @@ def build_fallback_profile(resume_text: str, interests: list[str]) -> dict:
         text_lower = resume_text.lower()
         skills = [s for s in KNOWN_SKILLS if s in text_lower][:8]
     if not skills:
-        skills = ["teamwork", "communication", "reliability"]
+        skills = list(_GENERIC_SKILLS_FALLBACK)
 
     summary_lines = _extract_section(lines, SUMMARY_HEADINGS)
     if summary_lines:
         summary = _first_sentences(" ".join(summary_lines))
+    elif skills != _GENERIC_SKILLS_FALLBACK:
+        # No SUMMARY/OBJECTIVE section - common for resumes that go straight
+        # from contact info into EDUCATION/SKILLS (typical for early-career
+        # and CS resumes). Synthesize from real extracted skills instead of
+        # ever showing raw text, which can include contact info/links.
+        summary = f"Brings hands-on experience in {_join_natural(skills[:3])}, ready to put those skills to work in the community."
     else:
-        stripped = resume_text.strip().replace("\n", " ")
-        if stripped:
-            summary = stripped[:220] + ("..." if len(stripped) > 220 else "")
-        else:
-            summary = "Experienced volunteer ready to help San Francisco communities."
+        summary = "Experienced volunteer ready to help San Francisco communities."
 
     causes_lines = _extract_section(lines, CAUSES_HEADINGS)
     resume_causes = _split_list_section("\n".join(causes_lines)) if causes_lines else []

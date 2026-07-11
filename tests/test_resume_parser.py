@@ -103,6 +103,22 @@ def test_multiple_skill_subcategories_on_separate_lines_dont_fuse():
     assert profile["skills"] == ["python", "java", "git", "docker"]
 
 
+def test_summary_synthesized_from_skills_when_no_summary_section_exists():
+    # Real bytes from production: this resume goes straight from contact
+    # info into EDUCATION/SKILLS with no SUMMARY/OBJECTIVE section at all,
+    # which used to fall back to showing the raw contact-info text as
+    # "strengths."
+    text = (
+        "Muhammad\n \nZubair\n \nZafar\n \ngithub .com/zubair480\n \n|\n \n"
+        "zubairzafar480@gmail.com\n \nEDUCATION\n \nEastern Illinois University\n \n"
+        "SKILLS\n \nLanguages: Python, TypeScript, Java"
+    )
+    profile = build_fallback_profile(text, [])
+    assert "github" not in profile["experience_summary"]
+    assert "@gmail.com" not in profile["experience_summary"]
+    assert "python" in profile["experience_summary"].lower()
+
+
 def test_empty_resume_uses_generic_summary():
     profile = build_fallback_profile("", [])
     assert profile["name"] == "Volunteer"
