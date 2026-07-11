@@ -15,6 +15,18 @@ The frontend team already fixed the contract and the scoring philosophy. This pl
 | `ARCHITECTURE.md` | AI and data-source credentials stay server-side; CORS restricted in production, open for the hackathon per this task's instructions. |
 | `ASSUMPTIONS.md` | Its `interests` serialization question ("JSON string vs comma string") is still open on their side — this backend accepts either, see Assumptions below. |
 
+## Design assets review (`assets/*.png`, pulled after this plan was first written)
+
+The teammate added five product-vision screens (landing, AI assistant, community map, impact dashboard, impact profile) plus a logo. These read as Devpost/README pitch material for the full product, not a mid-hackathon contract revision, so the fixed `API-CONTRACT.md` shapes stand. Two things from them do change what ships today:
+
+| Finding | Backend response |
+| --- | --- |
+| Nav includes an "Assistant" chat screen (conversational "Community Guide" that recommends opportunities inline). | Not in the frozen contract. Treat as an explicit stretch item — only attempt after `/api/profile`, `/api/matches`, `/api/needs` are solid and smoke-tested. Would need a new endpoint (e.g. `POST /api/assistant/chat`); not started unless time remains after Phase 6. |
+| Dashboard cards show an "Expected Impact" metric (e.g. "20+ hrs/wk saved") not present in `MatchesResponse`. | Do not add a field unilaterally — it would break the shape the frontend is coded against. Flagged as an open contract question for the teammate; `commitment` + `why_you` already satisfy the current contract. |
+| Two org names recur across the assistant, dashboard, and map mockups: **Code Tenderloin** (tech/workforce dev, Tenderloin) and **GLIDE** (Tenderloin, food/homelessness services). | Seed data uses these exact org names (not generic placeholders like "TechSoup") so a demo screenshot lines up with the pitch materials already produced. |
+| Profile-builder mockup's cause chips ("Education Access", "Climate Action", "Digital Literacy") don't match `REQUIREMENTS.md`'s ~10 chip labels ("climate", "housing", "seniors", ...) — the two frontend artifacts disagree with each other. | Causes are free text on the backend either way (substring-matched, not a strict enum). Seed data's `causes` vocabulary is the union of both label sets so match quality holds regardless of which chip set ships. |
+| Map screen's "Urgent Needs" sidebar (org-level cards like "Hygiene Supplies — GLIDE") is richer than `NeedsResponse`'s `{name, case_count, top_categories}`. | Derivable entirely client-side by joining `/api/needs` with `/api/matches` results — no backend shape change required. |
+
 ## Confirmed data facts (checked live against the Socrata API today)
 
 - Dataset `vw6y-z8j6` is actively updated (`max(requested_datetime)` returned `2026-07-10T23:59:34`), so a rolling 7-day window returns real recent rows.
