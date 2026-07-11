@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply m-0 min-w-[320px] bg-canvas font-body antialiased;
+  }
+
+  button,
+  input {
+    font: inherit;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+}
+
+@layer components {
+  .button-primary {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/25 disabled:translate-y-0 disabled:opacity-70;
+  }
+
+  .button-secondary {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-primary bg-surface px-4 py-2.5 text-sm font-bold text-primary transition hover:-translate-y-0.5 hover:bg-primary-soft/40 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20;
+  }
+
+  .card-panel {
+    @apply rounded-3xl border border-line/75 bg-surface shadow-card;
+  }
+
+  .eyebrow {
+    @apply text-xs font-extrabold uppercase tracking-[0.16em];
+  }
+
+  .field-label {
+    @apply text-sm font-bold text-ink;
+  }
+
+  .skip-link {
+    @apply fixed left-4 top-4 z-[100] -translate-y-24 rounded-lg bg-ink px-4 py-3 text-sm font-bold text-white transition focus:translate-y-0 focus:outline-none focus:ring-4 focus:ring-primary-soft;
+  }
+
+  .score-ring {
+    @apply flex size-14 items-center justify-center rounded-full p-1.5;
+  }
+
+  .score-ring > span {
+    @apply flex size-full items-center justify-center rounded-full bg-surface text-xs font-extrabold text-ink;
+  }
+}
+
+.hero-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(6px);
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.hero-orb-left {
+  width: 22rem;
+  height: 22rem;
+  background: #ffdbd1;
+  left: -14rem;
+  top: 5rem;
+}
+
+.hero-orb-right {
+  width: 15rem;
+  height: 15rem;
+  background: #cee1fe;
+  right: -5rem;
+  top: -4rem;
+}
+
+@keyframes loading {
+  0%,
+  100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(200%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
