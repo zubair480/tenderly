@@ -1,0 +1,52 @@
+{
+  "neighborhoods": [
+    {
+      "name": "Tenderloin",
+      "case_count": 89,
+      "top_categories": ["Encampments", "Street and Sidewalk Cleaning", "Noise"],
+      "encampment_share": 0.35
+    },
+    {
+      "name": "South of Market",
+      "case_count": 74,
+      "top_categories": ["Street and Sidewalk Cleaning", "Encampments", "Parking Enforcement"],
+      "encampment_share": 0.22
+    },
+    {
+      "name": "Mission",
+      "case_count": 61,
+      "top_categories": ["Street and Sidewalk Cleaning", "Noise", "Parking Enforcement"],
+      "encampment_share": 0.1
+    },
+    {
+      "name": "Bayview",
+      "case_count": 48,
+      "top_categories": ["Street and Sidewalk Cleaning", "Abandoned Vehicle", "Illegal Postings"],
+      "encampment_share": 0.12
+    },
+    {
+      "name": "Civic Center",
+      "case_count": 40,
+      "top_categories": ["Encampments", "Street and Sidewalk Cleaning", "Graffiti"],
+      "encampment_share": 0.28
+    },
+    {
+      "name": "Chinatown",
+      "case_count": 33,
+      "top_categories": ["Street and Sidewalk Cleaning", "Graffiti", "Parking Enforcement"],
+      "encampment_share": 0.05
+    },
+    {
+      "name": "Excelsior",
+      "case_count": 22,
+      "top_categories": ["Parking Enforcement", "Street and Sidewalk Cleaning", "Tree Maintenance"],
+      "encampment_share": 0.03
+    },
+    {
+      "name": "Bernal Heights",
+      "case_count": 18,
+      "top_categories": ["Street and Sidewalk Cleaning", "Parking Enforcement", "Graffiti"],
+      "encampment_share": 0.04
+    }
+  ]
+}
