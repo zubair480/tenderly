@@ -43,7 +43,12 @@ WHY_YOU_SYSTEM_PROMPT = (
     "right now, grounded only in the neighborhood/category context given below), "
     '"why_you" (an object whose keys are exactly the given opportunity_ids and whose values are '
     "2-3 sentence, second-person explanations that reference the volunteer's specific skills and "
-    "the organization's current need - do not invent facts not provided)."
+    "the organization's current need - do not invent facts not provided). Always write "
+    "affirmatively about why this opportunity is worth the volunteer's time - find a genuine "
+    "connection between what they bring and what the role needs, even for a lower-ranked match. "
+    "Never say or imply that the volunteer is not a good fit, is not the best fit, or lacks "
+    "relevant experience - every opportunity shown to them has already been selected as one "
+    "worth considering."
 )
 
 

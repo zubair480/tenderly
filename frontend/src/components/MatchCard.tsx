@@ -1,4 +1,4 @@
-import { Clock3, MapPin, Quote, Sparkles } from 'lucide-react';
+import { Clock3, ExternalLink, MapPin, Quote, Sparkles } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 import type { Match } from '../api';
 import { percentage, sentenceCase } from '../lib/format';
@@ -72,6 +72,18 @@ export function MatchCard({ match, rank }: MatchCardProps) {
         </div>
         <p className="mt-2 font-display text-lg leading-7 text-ink">{explanation}</p>
       </div>
+
+      {match.org_url && (
+        <a
+          className="relative mt-4 inline-flex min-h-11 items-center gap-1.5 text-sm font-bold text-primary underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20"
+          href={match.org_url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Visit {match.org_name}
+          <ExternalLink className="size-3.5" aria-hidden="true" />
+        </a>
+      )}
     </motion.article>
   );
 }

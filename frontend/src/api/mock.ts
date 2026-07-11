@@ -26,6 +26,7 @@ const normalMatches: Match[] = [
     urgency: 'medium',
     why_you:
       'Your project coordination and technical support experience can help neighbors build practical digital confidence—one patient, hands-on session at a time.',
+    org_url: 'https://www.codetenderloin.org',
   },
   {
     opportunity_id: 'glide-meal-service',
@@ -40,6 +41,7 @@ const normalMatches: Match[] = [
     urgency: 'high',
     why_you:
       'You are available on weekends and care about food security. Your reliable, people-first approach is exactly what a welcoming meal service needs.',
+    org_url: 'https://www.glide.org',
   },
   {
     opportunity_id: 'soma-youth-career',
@@ -54,6 +56,7 @@ const normalMatches: Match[] = [
     urgency: 'medium',
     why_you:
       'Your communication and operations background makes you a strong guide for young people preparing their first resumes, interviews, and next steps.',
+    org_url: 'https://www.somayouthcenter.org',
   },
   {
     opportunity_id: 'sf-marin-food-bank',
@@ -68,6 +71,7 @@ const normalMatches: Match[] = [
     urgency: 'high',
     why_you:
       'Your weekend availability and interest in food access make this a practical way to support a high-demand neighborhood pantry.',
+    org_url: 'https://www.sfmfoodbank.org',
   },
   {
     opportunity_id: 'sf-spca-community-care',
@@ -82,6 +86,7 @@ const normalMatches: Match[] = [
     urgency: 'low',
     why_you:
       'Your community-minded logistics skills can help keep pet food accessible for neighbors who need a little extra support.',
+    org_url: 'https://www.sfspca.org',
   },
 ];
 
