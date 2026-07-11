@@ -64,6 +64,20 @@ def test_inline_label_format_is_parsed_like_the_frontends_sample_button():
     assert profile["skills"] == ["project coordination", "technical support", "spanish"]
 
 
+def test_name_extracted_when_pdf_splits_each_word_onto_its_own_line():
+    # Real bytes captured from production logs: this specific PDF's text
+    # layer extracts one word per line, with stray whitespace-only lines
+    # in between, instead of collapsing the header into one line or
+    # keeping normal multi-word lines.
+    header = (
+        "Muhammad\n \nZubair\n \nZafar\n \ngithub .com/zubair480\n \n|\n \n"
+        "linkedin.com/in/zubair480\n \n|\n \n(\n217)\n \n790\n \n8056\n \n|\n \n"
+        "zubairzafar480@gmail.com\n \n|\n \n94103,\n \nSF\n \nEDUCATION"
+    )
+    profile = build_fallback_profile(header, [])
+    assert profile["name"] == "Muhammad Zubair Zafar"
+
+
 def test_name_extracted_when_pdf_collapses_header_into_one_line():
     # pypdf commonly collapses a resume's name + GitHub/LinkedIn/phone/email
     # header into a single line with no newlines. The whole line clearly

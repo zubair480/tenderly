@@ -149,7 +149,25 @@ def _extract_name(resume_text: str) -> str | None:
     fails on real PDFs; instead this only requires a name-shaped word run
     at the very start, and keeps scanning subsequent lines if the first
     doesn't yield one (e.g. a "Resume" banner line before the real name).
+
+    Some PDFs go the opposite way: depending on how the source document
+    justifies/kerns its header, pypdf can extract one word per line, with
+    stray whitespace-only lines in between (e.g. "Muhammad\\n \\nZubair\\n
+    \\nZafar\\n \\ngithub .com/..."). The per-line scan below never sees two
+    name-words on the same line in that case, so first merge a leading run
+    of bare single-word lines before falling back to the per-line check.
     """
+    non_blank_lines = [line.strip() for line in resume_text.splitlines() if line.strip()]
+
+    merged_words: list[str] = []
+    for line in non_blank_lines[:8]:
+        if len(merged_words) < 4 and _NAME_WORD_RE.match(line):
+            merged_words.append(line)
+        else:
+            break
+    if 1 < len(merged_words) <= 4 and not all(w.lower() in _NAME_BLOCKLIST for w in merged_words):
+        return " ".join(merged_words)
+
     for line in resume_text.splitlines()[:5]:
         stripped = line.strip()
         if not stripped:

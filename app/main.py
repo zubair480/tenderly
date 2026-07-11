@@ -139,7 +139,6 @@ async def create_profile(
 ) -> ProfileResponse:
     content = await file.read()
     resume_text = extract_resume_text(file.filename or "", content)
-    logger.info("TEMP_DEBUG filename=%r raw_resume_text=%r", file.filename, resume_text[:600])
     interests_list = parse_interests(interests)
 
     fallback = build_fallback_profile(resume_text, interests_list)
