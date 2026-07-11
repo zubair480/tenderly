@@ -22,7 +22,7 @@
     "lat": 37.7355,
     "lng": -122.382,
     "needed_skills": ["driving", "logistics", "customer service", "organization"],
-    "causes": ["food security", "housing"],
+    "causes": ["food security", "housing", "housing support"],
     "commitment": "4 hrs, weekday mornings",
     "availability": ["weekday mornings"],
     "base_urgency": 0.5
@@ -50,7 +50,7 @@
     "lat": 37.7832,
     "lng": -122.4161,
     "needed_skills": ["compassion", "conflict resolution", "first aid", "communication"],
-    "causes": ["housing", "homelessness", "community safety"],
+    "causes": ["housing", "housing support", "homelessness", "community safety"],
     "commitment": "8 hrs overnight, weekly",
     "availability": ["weekday evenings", "weekends"],
     "base_urgency": 0.7
@@ -64,7 +64,7 @@
     "lat": 37.7845,
     "lng": -122.4139,
     "needed_skills": ["outreach", "communication", "compassion", "case management"],
-    "causes": ["housing", "homelessness", "health"],
+    "causes": ["housing", "housing support", "homelessness", "health", "disability inclusion"],
     "commitment": "3 hrs, weekday afternoons",
     "availability": ["weekday afternoons", "flexible"],
     "base_urgency": 0.75
@@ -78,7 +78,7 @@
     "lat": 37.7362,
     "lng": -122.3834,
     "needed_skills": ["childcare", "organization", "event planning", "compassion"],
-    "causes": ["housing", "homelessness", "youth"],
+    "causes": ["housing", "housing support", "homelessness", "youth"],
     "commitment": "3 hrs, weekend afternoons",
     "availability": ["weekends"],
     "base_urgency": 0.6
@@ -134,7 +134,7 @@
     "lat": 37.7941,
     "lng": -122.4078,
     "needed_skills": ["compassion", "communication", "mandarin", "cantonese"],
-    "causes": ["seniors", "health"],
+    "causes": ["seniors", "health", "disability inclusion"],
     "commitment": "2 hrs/week, flexible",
     "availability": ["flexible"],
     "base_urgency": 0.4

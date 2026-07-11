@@ -59,15 +59,23 @@ def overlap_fraction(profile_items: list[str], target_items: list[str]) -> float
 def availability_fit(profile_availability: str, opportunity_availability: list[str]) -> float:
     """Score how well a profile's availability string fits an opportunity.
 
-    Treated as an opaque string (not a fixed enum) since the frontend's
-    exact availability vocabulary is still unconfirmed - see
-    docs/BACKEND-ARCHITECTURE.md assumptions.
+    The real frontend (frontend/src/constants.ts) sends exactly one of
+    "one_time", "weekly", or "flexible" - not the day/time-of-day strings
+    ("weekends", "weekday evenings") this task's contract example showed.
+    Opportunity availability tags are day/time-of-day based. Handled as an
+    opaque string either way so both vocabularies score sensibly.
     """
     pa = (profile_availability or "").strip().lower()
     if not pa:
         return 0.5
 
     opp_tokens = [a.strip().lower() for a in opportunity_availability]
+
+    # A volunteer who says they're flexible fits any opportunity's schedule,
+    # regardless of whether the opportunity itself is tagged "flexible".
+    if pa in FLEXIBLE_TOKENS:
+        return 1.0
+
     if pa in opp_tokens:
         return 1.0
     if any(t in FLEXIBLE_TOKENS for t in opp_tokens):
@@ -78,6 +86,14 @@ def availability_fit(profile_availability: str, opportunity_availability: list[s
         t_words = set(t.replace("-", " ").replace("_", " ").split())
         if pa_words & t_words:
             return 0.6
+
+    # "one_time"/"weekly" don't map to any day/time-of-day tag, but a
+    # one-off shift or an ongoing weekly commitment can both realistically
+    # fit most of these opportunities - moderate, not full, credit.
+    if pa in ("one_time", "one time"):
+        return 0.7
+    if pa == "weekly":
+        return 0.55
 
     return 0.25
 

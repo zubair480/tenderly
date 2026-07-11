@@ -33,6 +33,21 @@ def test_availability_fit_no_match():
     assert availability_fit("weekday mornings", ["weekend evenings"]) == 0.25
 
 
+def test_availability_fit_volunteer_flexible_matches_any_opportunity():
+    # The real frontend sends availability as "one_time" | "weekly" | "flexible"
+    # (frontend/src/constants.ts). A flexible volunteer should fit any
+    # opportunity's schedule, not just ones explicitly tagged "flexible".
+    assert availability_fit("flexible", ["weekend mornings"]) == 1.0
+
+
+def test_availability_fit_one_time_gets_moderate_credit():
+    assert availability_fit("one_time", ["weekend mornings"]) == 0.7
+
+
+def test_availability_fit_weekly_gets_moderate_credit():
+    assert availability_fit("weekly", ["weekday afternoons"]) == 0.55
+
+
 def test_normalize_neighborhood_key_handles_case_and_whitespace():
     assert normalize_neighborhood_key("SOUTH OF MARKET") == normalize_neighborhood_key("South of Market  ")
 
