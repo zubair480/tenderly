@@ -5,10 +5,10 @@ from fastapi import FastAPI, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
 from app import needs_service, store
-from app.config import OPPORTUNITIES_PATH
 from app.gradient_client import call_llm_json
 from app.matching import rank_opportunities
 from app.models import HealthResponse, MatchesResponse, NeedsResponse, ProfileResponse
+from app.opportunity_repository import load_active_opportunities
 from app.resume_parser import (
     PROFILE_SYSTEM_PROMPT,
     build_fallback_profile,
@@ -30,10 +30,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-with open(OPPORTUNITIES_PATH, "r", encoding="utf-8") as f:
-    OPPORTUNITIES: list[dict] = json.load(f)
-
 
 WHY_YOU_SYSTEM_PROMPT = (
     "You are an assistant that writes short volunteer-matching explanations and a community "
@@ -161,9 +157,10 @@ def get_matches(profile_id: str, scenario: str = "normal") -> MatchesResponse:
         raise HTTPException(status_code=404, detail="profile not found")
 
     needs_payload = needs_service.get_needs_data()
+    opportunities = load_active_opportunities()
     ranked = rank_opportunities(
         profile,
-        OPPORTUNITIES,
+        opportunities,
         needs_payload["case_counts"],
         scenario,
         needs_payload["encampment_share"],

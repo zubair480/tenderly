@@ -31,3 +31,58 @@ services:
       - key: NEEDS_CACHE_TTL_SECONDS
         scope: RUN_TIME
         value: "600"
+      - key: DATABASE_URL
+        scope: RUN_TIME
+        value: "${tenderly-db.DATABASE_URL}"
+jobs:
+  - name: db-migrate
+    github:
+      repo: arjun-vaidya/tenderly
+      branch: main
+      deploy_on_push: true
+    dockerfile_path: Dockerfile
+    source_dir: /
+    run_command: python -m app.migrate
+    kind: PRE_DEPLOY
+    instance_size_slug: basic-xxs
+    envs:
+      - key: DATABASE_URL
+        scope: RUN_TIME
+        value: "${tenderly-db.DATABASE_URL}"
+  - name: opportunity-ingestion
+    github:
+      repo: arjun-vaidya/tenderly
+      branch: main
+      deploy_on_push: true
+    dockerfile_path: Dockerfile
+    source_dir: /
+    run_command: python -m app.ingestion_job
+    kind: SCHEDULED
+    schedule:
+      cron: "0 */6 * * *"
+      time_zone: America/Los_Angeles
+    instance_size_slug: basic-xxs
+    envs:
+      - key: DATABASE_URL
+        scope: RUN_TIME
+        value: "${tenderly-db.DATABASE_URL}"
+      - key: GRADIENT_API_KEY
+        scope: RUN_TIME
+        type: SECRET
+      - key: GRADIENT_MODEL
+        scope: RUN_TIME
+        value: "llama3.3-70b-instruct"
+      - key: GRADIENT_BASE_URL
+        scope: RUN_TIME
+        value: "https://inference.do-ai.run/v1"
+      - key: OPPORTUNITY_INGESTION_ENABLED
+        scope: RUN_TIME
+        value: "true"
+      - key: OPPORTUNITY_IMPORT_TIMEOUT_SECONDS
+        scope: RUN_TIME
+        value: "20"
+databases:
+  - name: tenderly-db
+    engine: PG
+    production: true
+    cluster_name: tenderly-opportunities

@@ -1,0 +1,84 @@
+{
+  "about": "Tenderly imports only from approved, public opportunity sources. Set enabled to true only after the organization confirms automated access is welcome. Static pages are intentionally disabled until that approval exists.",
+  "refresh_schedule": "Every 6 hours, run by the DigitalOcean App Platform opportunity-ingestion job.",
+  "global_safety_rules": [
+    "Only fetch a URL whose hostname appears in allowed_domains.",
+    "Never parse SF 311 data as an opportunity. It is a separate community-needs signal used only for reranking.",
+    "Do not auto-promote a record below the parser confidence threshold.",
+    "Store source URL, content hash, and import result for auditability."
+  ],
+  "sources": [
+    {
+      "id": "826_valencia_volunteer",
+      "name": "826 Valencia volunteer page",
+      "type": "html_page",
+      "url": "https://www.826valencia.org/volunteer/",
+      "enabled": false,
+      "allowed_domains": ["www.826valencia.org"],
+      "auto_promote_confidence": 0.92,
+      "defaults": {
+        "category": "education",
+        "neighborhood": "Mission",
+        "lat": 37.7633,
+        "lng": -122.4214,
+        "causes": ["education", "youth"],
+        "base_urgency": 0.55
+      },
+      "activation_note": "Enable after receiving written permission or a partner feed from 826 Valencia."
+    },
+    {
+      "id": "glide_volunteer",
+      "name": "GLIDE volunteer page",
+      "type": "html_page",
+      "url": "https://www.glide.org/volunteer/",
+      "enabled": false,
+      "allowed_domains": ["www.glide.org"],
+      "auto_promote_confidence": 0.92,
+      "defaults": {
+        "category": "homelessness",
+        "neighborhood": "Tenderloin",
+        "lat": 37.7853,
+        "lng": -122.4105,
+        "causes": ["homelessness", "food_security"],
+        "base_urgency": 0.8
+      },
+      "activation_note": "Enable after receiving written permission or a structured partner feed from GLIDE."
+    },
+    {
+      "id": "sf_marin_food_bank_volunteer",
+      "name": "SF-Marin Food Bank volunteer page",
+      "type": "html_page",
+      "url": "https://www.sfmfoodbank.org/volunteer/",
+      "enabled": false,
+      "allowed_domains": ["www.sfmfoodbank.org"],
+      "auto_promote_confidence": 0.92,
+      "defaults": {
+        "category": "food_security",
+        "neighborhood": "Citywide",
+        "lat": 37.7749,
+        "lng": -122.4194,
+        "causes": ["food_security"],
+        "base_urgency": 0.75
+      },
+      "activation_note": "Enable after receiving written permission or a structured partner feed from SF-Marin Food Bank."
+    },
+    {
+      "id": "partner_json_feed_template",
+      "name": "Partner JSON feed template",
+      "type": "json_api",
+      "url": "",
+      "enabled": false,
+      "allowed_domains": [],
+      "auto_promote_confidence": 0.95,
+      "defaults": {
+        "category": "community",
+        "neighborhood": "Citywide",
+        "lat": 37.7749,
+        "lng": -122.4194,
+        "causes": ["community"],
+        "base_urgency": 0.5
+      },
+      "activation_note": "Copy this entry for a nonprofit-provided JSON, CSV-to-JSON, or Airtable API feed. JSON feeds are preferred over webpage parsing."
+    }
+  ]
+}
