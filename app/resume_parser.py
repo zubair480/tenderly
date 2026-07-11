@@ -1,9 +1,14 @@
 import io
 import logging
+import re
 
 import pypdf
 
 logger = logging.getLogger("tenderly.resume")
+
+SKILLS_HEADINGS = {"skills", "skills & expertise", "technical skills", "core skills", "key skills"}
+SUMMARY_HEADINGS = {"summary", "profile", "objective", "about", "about me"}
+CAUSES_HEADINGS = {"causes", "causes i care about", "causes & interests", "interests"}
 
 KNOWN_SKILLS = [
     "customer service", "teaching", "tutoring", "mentoring", "spanish", "mandarin",
@@ -62,22 +67,126 @@ def build_profile_user_prompt(resume_text: str, interests: list[str], availabili
     )
 
 
+def _is_heading_line(line: str) -> bool:
+    """A line is heading-like if it's one of our known section names, or
+    generically short/all-caps the way resume section headers usually are
+    (e.g. "EXPERIENCE", "EDUCATION") - used to know where a section ends.
+    """
+    stripped = line.strip().rstrip(":").strip()
+    if not stripped:
+        return False
+    known = SKILLS_HEADINGS | SUMMARY_HEADINGS | CAUSES_HEADINGS
+    if stripped.lower() in known:
+        return True
+    return len(stripped) <= 40 and stripped == stripped.upper() and any(c.isalpha() for c in stripped)
+
+
+def _extract_section(lines: list[str], heading_names: set[str]) -> str:
+    """Return the text following a heading matching one of `heading_names`.
+
+    Handles two common resume formats: the heading alone on its own line
+    with content below (e.g. "SKILLS\\nPython, SQL, ..."), and an inline
+    "Label: content" line (e.g. "Skills: project coordination, Spanish").
+    Returns "" if no such heading is found.
+    """
+    for i, line in enumerate(lines):
+        stripped = line.strip()
+        line_as_heading = stripped.rstrip(":").strip()
+        inline_label, _, inline_rest = stripped.partition(":")
+
+        if line_as_heading.lower() in heading_names:
+            collected = []
+        elif inline_label.strip().lower() in heading_names and inline_rest.strip():
+            collected = [inline_rest.strip()]
+        else:
+            continue
+
+        for candidate in lines[i + 1 :]:
+            if _is_heading_line(candidate):
+                break
+            if candidate.strip():
+                collected.append(candidate.strip())
+        return " ".join(collected)
+    return ""
+
+
+def _split_list_section(text: str) -> list[str]:
+    parts = re.split(r"[,;\n]", text)
+    cleaned = []
+    for part in parts:
+        item = part.strip().strip(".").strip().lower()
+        if item:
+            cleaned.append(item)
+    return cleaned
+
+
+def _first_sentences(text: str, max_sentences: int = 2, max_len: int = 280) -> str:
+    sentences = re.split(r"(?<=[.!?])\s+", text.strip())
+    result = " ".join(sentences[:max_sentences]).strip()
+    if len(result) > max_len:
+        result = result[:max_len].rsplit(" ", 1)[0] + "..."
+    return result
+
+
+def _extract_name(resume_text: str) -> str | None:
+    """A resume's first non-blank line is almost always the person's name."""
+    for line in resume_text.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+        words = stripped.split()
+        looks_like_name = (
+            1 < len(words) <= 4
+            and len(stripped) <= 40
+            and not any(ch.isdigit() for ch in stripped)
+            and all(all(ch.isalpha() or ch in "-'." for ch in w) for w in words)
+        )
+        return stripped if looks_like_name else None
+    return None
+
+
 def build_fallback_profile(resume_text: str, interests: list[str]) -> dict:
-    text_lower = resume_text.lower()
-    skills = [s for s in KNOWN_SKILLS if s in text_lower][:8]
+    """Deterministic profile extraction used when Gradient AI is unavailable.
+
+    Looks for common resume section headers (SKILLS, SUMMARY, CAUSES) first,
+    since parsing those directly gives far better results than blind keyword
+    scanning or raw-text truncation - falls back to those only when a resume
+    has no recognizable section structure.
+    """
+    lines = resume_text.splitlines()
+
+    name = _extract_name(resume_text) or "Volunteer"
+
+    skills_section = _extract_section(lines, SKILLS_HEADINGS)
+    if skills_section:
+        skills = _split_list_section(skills_section)[:8]
+    else:
+        text_lower = resume_text.lower()
+        skills = [s for s in KNOWN_SKILLS if s in text_lower][:8]
     if not skills:
         skills = ["teamwork", "communication", "reliability"]
 
-    causes = [c.strip() for c in interests if c.strip()] or ["community"]
-
-    stripped = resume_text.strip().replace("\n", " ")
-    if stripped:
-        summary = stripped[:220] + ("..." if len(stripped) > 220 else "")
+    summary_section = _extract_section(lines, SUMMARY_HEADINGS)
+    if summary_section:
+        summary = _first_sentences(summary_section)
     else:
-        summary = "Experienced volunteer ready to help San Francisco communities."
+        stripped = resume_text.strip().replace("\n", " ")
+        if stripped:
+            summary = stripped[:220] + ("..." if len(stripped) > 220 else "")
+        else:
+            summary = "Experienced volunteer ready to help San Francisco communities."
+
+    causes_section = _extract_section(lines, CAUSES_HEADINGS)
+    resume_causes = _split_list_section(causes_section) if causes_section else []
+    causes = [c.strip() for c in interests if c.strip()] or list(resume_causes) or ["community"]
+    existing_lower = {c.lower() for c in causes}
+    for cause in resume_causes:
+        if cause not in existing_lower:
+            causes.append(cause)
+            existing_lower.add(cause)
 
     return {
-        "name": "Volunteer",
+        "name": name,
         "skills": skills,
         "experience_summary": summary,
         "causes": causes,
