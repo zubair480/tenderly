@@ -14,7 +14,12 @@ _client: OpenAI | None = None
 def get_client() -> OpenAI:
     global _client
     if _client is None:
-        _client = OpenAI(api_key=GRADIENT_API_KEY or "missing-key", base_url=GRADIENT_BASE_URL)
+        _client = OpenAI(
+            api_key=GRADIENT_API_KEY or "missing-key",
+            base_url=GRADIENT_BASE_URL,
+            timeout=12.0,
+            max_retries=0,
+        )
     return _client
 
 
