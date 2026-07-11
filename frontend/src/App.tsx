@@ -9,6 +9,7 @@ import { ErrorState } from './components/ErrorState';
 import { Header } from './components/Header';
 import { MatchCard } from './components/MatchCard';
 import { OnboardingForm } from './components/OnboardingForm';
+import { OpportunityMap } from './components/OpportunityMap';
 import { ProfileLoading } from './components/ProfileLoading';
 import { ProfileReveal } from './components/ProfileReveal';
 
@@ -125,6 +126,7 @@ export default function App() {
 
   const topMatches = matches.slice(0, 3);
   const additionalMatches = matches.slice(3);
+  const allMatchesHaveLocation = matches.length > 0 && matches.every((m) => Number.isFinite(m.lat) && Number.isFinite(m.lng));
 
   return (
     <div className="min-h-screen bg-canvas text-ink" id="top">
@@ -213,7 +215,6 @@ export default function App() {
                   <div>
                     <p className="eyebrow text-primary">Your top opportunities</p>
                     <h1 className="mt-2 font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl">Here’s where you can make a difference.</h1>
-                    <p className="mt-3 max-w-2xl text-lg leading-7 text-muted">Built around your strengths, causes, and availability—not just a keyword search.</p>
                   </div>
                   <button className="button-secondary shrink-0" onClick={reset} type="button">
                     <RotateCcw className="size-4" aria-hidden="true" />
@@ -223,6 +224,12 @@ export default function App() {
 
                 <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
                   <div>
+                    {allMatchesHaveLocation && (
+                      <div className="mb-8">
+                        <OpportunityMap topMatches={topMatches} additionalMatches={additionalMatches} />
+                      </div>
+                    )}
+
                     <div className="rounded-2xl border border-line/80 bg-primary-soft/40 p-4 sm:flex sm:items-center sm:justify-between sm:gap-5">
                       <div>
                         <p className="font-semibold text-ink">{scenario === 'surge' ? 'Cold snap response is active' : 'Recommendations for today'}</p>
@@ -254,7 +261,21 @@ export default function App() {
                             <article className="flex items-center justify-between gap-4 border-b border-line/60 px-4 py-4 last:border-b-0 sm:px-5" key={match.opportunity_id}>
                               <div className="min-w-0">
                                 <p className="font-semibold text-ink">{match.title}</p>
-                                <p className="mt-1 text-sm text-muted">{match.org_name} · {match.neighborhood}</p>
+                                <p className="mt-1 text-sm text-muted">
+                                  {match.org_url ? (
+                                    <a
+                                      className="underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20"
+                                      href={match.org_url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      {match.org_name}
+                                    </a>
+                                  ) : (
+                                    match.org_name
+                                  )}{' '}
+                                  · {match.neighborhood} · {match.commitment}
+                                </p>
                               </div>
                               <span className="shrink-0 text-sm font-bold text-primary">{Math.round(match.score * 100)}% match</span>
                             </article>

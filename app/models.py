@@ -24,6 +24,7 @@ class MatchItem(BaseModel):
     score: float
     urgency: str
     why_you: Optional[str] = None
+    org_url: Optional[str] = None
 
 
 class MatchesResponse(BaseModel):

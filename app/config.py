@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 GRADIENT_API_KEY = os.environ.get("GRADIENT_API_KEY", "")
-GRADIENT_MODEL = os.environ.get("GRADIENT_MODEL", "llama3.3-70b-instruct")
+GRADIENT_MODEL = os.environ.get("GRADIENT_MODEL", "llama-4-maverick")
 GRADIENT_BASE_URL = os.environ.get("GRADIENT_BASE_URL", "https://inference.do-ai.run/v1")
 
 # Opportunity catalog / ingestion settings. The public API still uses the

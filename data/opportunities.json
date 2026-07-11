@@ -7,11 +7,23 @@
     "neighborhood": "Tenderloin",
     "lat": 37.7838,
     "lng": -122.4152,
-    "needed_skills": ["organization", "teamwork", "physical labor", "customer service"],
-    "causes": ["food security", "community safety"],
+    "needed_skills": [
+      "organization",
+      "teamwork",
+      "physical labor",
+      "customer service"
+    ],
+    "causes": [
+      "food security",
+      "community safety"
+    ],
     "commitment": "3 hrs, Saturday mornings",
-    "availability": ["weekends", "flexible"],
-    "base_urgency": 0.55
+    "availability": [
+      "weekends",
+      "flexible"
+    ],
+    "base_urgency": 0.55,
+    "org_url": "https://www.sfmfoodbank.org"
   },
   {
     "opportunity_id": "foodbank-mobile-pantry-driver",
@@ -21,11 +33,23 @@
     "neighborhood": "Bayview",
     "lat": 37.7355,
     "lng": -122.382,
-    "needed_skills": ["driving", "logistics", "customer service", "organization"],
-    "causes": ["food security", "housing", "housing support"],
+    "needed_skills": [
+      "driving",
+      "logistics",
+      "customer service",
+      "organization"
+    ],
+    "causes": [
+      "food security",
+      "housing",
+      "housing support"
+    ],
     "commitment": "4 hrs, weekday mornings",
-    "availability": ["weekday mornings"],
-    "base_urgency": 0.5
+    "availability": [
+      "weekday mornings"
+    ],
+    "base_urgency": 0.5,
+    "org_url": "https://www.sfmfoodbank.org"
   },
   {
     "opportunity_id": "glide-kitchen-prep",
@@ -35,11 +59,25 @@
     "neighborhood": "Tenderloin",
     "lat": 37.7841,
     "lng": -122.4147,
-    "needed_skills": ["cooking", "teamwork", "physical labor", "food safety"],
-    "causes": ["food security", "homelessness", "community safety"],
+    "needed_skills": [
+      "cooking",
+      "teamwork",
+      "physical labor",
+      "food safety"
+    ],
+    "causes": [
+      "food security",
+      "homelessness",
+      "community safety"
+    ],
     "commitment": "3 hrs, weekday evenings",
-    "availability": ["weekday evenings", "weekends", "flexible"],
-    "base_urgency": 0.65
+    "availability": [
+      "weekday evenings",
+      "weekends",
+      "flexible"
+    ],
+    "base_urgency": 0.65,
+    "org_url": "https://www.glide.org"
   },
   {
     "opportunity_id": "ecs-shelter-overnight-host",
@@ -49,11 +87,25 @@
     "neighborhood": "Tenderloin",
     "lat": 37.7832,
     "lng": -122.4161,
-    "needed_skills": ["compassion", "conflict resolution", "first aid", "communication"],
-    "causes": ["housing", "housing support", "homelessness", "community safety"],
+    "needed_skills": [
+      "compassion",
+      "conflict resolution",
+      "first aid",
+      "communication"
+    ],
+    "causes": [
+      "housing",
+      "housing support",
+      "homelessness",
+      "community safety"
+    ],
     "commitment": "8 hrs overnight, weekly",
-    "availability": ["weekday evenings", "weekends"],
-    "base_urgency": 0.7
+    "availability": [
+      "weekday evenings",
+      "weekends"
+    ],
+    "base_urgency": 0.7,
+    "org_url": "https://www.ecs-sf.org"
   },
   {
     "opportunity_id": "glide-street-outreach-companion",
@@ -63,11 +115,26 @@
     "neighborhood": "Tenderloin",
     "lat": 37.7845,
     "lng": -122.4139,
-    "needed_skills": ["outreach", "communication", "compassion", "case management"],
-    "causes": ["housing", "housing support", "homelessness", "health", "disability inclusion"],
+    "needed_skills": [
+      "outreach",
+      "communication",
+      "compassion",
+      "case management"
+    ],
+    "causes": [
+      "housing",
+      "housing support",
+      "homelessness",
+      "health",
+      "disability inclusion"
+    ],
     "commitment": "3 hrs, weekday afternoons",
-    "availability": ["weekday afternoons", "flexible"],
-    "base_urgency": 0.75
+    "availability": [
+      "weekday afternoons",
+      "flexible"
+    ],
+    "base_urgency": 0.75,
+    "org_url": "https://www.glide.org"
   },
   {
     "opportunity_id": "hamilton-families-shelter-support",
@@ -77,11 +144,24 @@
     "neighborhood": "Bayview",
     "lat": 37.7362,
     "lng": -122.3834,
-    "needed_skills": ["childcare", "organization", "event planning", "compassion"],
-    "causes": ["housing", "housing support", "homelessness", "youth"],
+    "needed_skills": [
+      "childcare",
+      "organization",
+      "event planning",
+      "compassion"
+    ],
+    "causes": [
+      "housing",
+      "housing support",
+      "homelessness",
+      "youth"
+    ],
     "commitment": "3 hrs, weekend afternoons",
-    "availability": ["weekends"],
-    "base_urgency": 0.6
+    "availability": [
+      "weekends"
+    ],
+    "base_urgency": 0.6,
+    "org_url": "https://hamiltonfamilies.org"
   },
   {
     "opportunity_id": "826-valencia-writing-tutor",
@@ -91,11 +171,23 @@
     "neighborhood": "Mission",
     "lat": 37.7599,
     "lng": -122.4148,
-    "needed_skills": ["teaching", "tutoring", "writing", "mentoring"],
-    "causes": ["education access", "youth"],
+    "needed_skills": [
+      "teaching",
+      "tutoring",
+      "writing",
+      "mentoring"
+    ],
+    "causes": [
+      "education access",
+      "youth"
+    ],
     "commitment": "2 hrs/week, weekday afternoons",
-    "availability": ["weekday afternoons", "flexible"],
-    "base_urgency": 0.4
+    "availability": [
+      "weekday afternoons",
+      "flexible"
+    ],
+    "base_urgency": 0.4,
+    "org_url": "https://826valencia.org"
   },
   {
     "opportunity_id": "reading-partners-literacy-tutor",
@@ -105,11 +197,22 @@
     "neighborhood": "Excelsior",
     "lat": 37.7258,
     "lng": -122.4326,
-    "needed_skills": ["teaching", "tutoring", "patience", "communication"],
-    "causes": ["education access", "youth"],
+    "needed_skills": [
+      "teaching",
+      "tutoring",
+      "patience",
+      "communication"
+    ],
+    "causes": [
+      "education access",
+      "youth"
+    ],
     "commitment": "1 hr/week, weekday mornings",
-    "availability": ["weekday mornings"],
-    "base_urgency": 0.4
+    "availability": [
+      "weekday mornings"
+    ],
+    "base_urgency": 0.4,
+    "org_url": "https://readingpartners.org"
   },
   {
     "opportunity_id": "meals-on-wheels-delivery-driver",
@@ -119,11 +222,22 @@
     "neighborhood": "Excelsior",
     "lat": 37.7249,
     "lng": -122.4318,
-    "needed_skills": ["driving", "time management", "compassion", "reliability"],
-    "causes": ["seniors", "food security"],
+    "needed_skills": [
+      "driving",
+      "time management",
+      "compassion",
+      "reliability"
+    ],
+    "causes": [
+      "seniors",
+      "food security"
+    ],
     "commitment": "2 hrs, weekday mornings",
-    "availability": ["weekday mornings"],
-    "base_urgency": 0.45
+    "availability": [
+      "weekday mornings"
+    ],
+    "base_urgency": 0.45,
+    "org_url": "https://www.mowsf.org"
   },
   {
     "opportunity_id": "self-help-elderly-companion-visitor",
@@ -133,11 +247,23 @@
     "neighborhood": "Chinatown",
     "lat": 37.7941,
     "lng": -122.4078,
-    "needed_skills": ["compassion", "communication", "mandarin", "cantonese"],
-    "causes": ["seniors", "health", "disability inclusion"],
+    "needed_skills": [
+      "compassion",
+      "communication",
+      "mandarin",
+      "cantonese"
+    ],
+    "causes": [
+      "seniors",
+      "health",
+      "disability inclusion"
+    ],
     "commitment": "2 hrs/week, flexible",
-    "availability": ["flexible"],
-    "base_urgency": 0.4
+    "availability": [
+      "flexible"
+    ],
+    "base_urgency": 0.4,
+    "org_url": "https://www.selfhelpelderly.org"
   },
   {
     "opportunity_id": "code-tenderloin-tech-mentor",
@@ -147,11 +273,24 @@
     "neighborhood": "Tenderloin",
     "lat": 37.7836,
     "lng": -122.4144,
-    "needed_skills": ["software engineering", "python", "web development", "teaching", "mentoring"],
-    "causes": ["education access", "digital literacy"],
+    "needed_skills": [
+      "software engineering",
+      "python",
+      "web development",
+      "teaching",
+      "mentoring"
+    ],
+    "causes": [
+      "education access",
+      "digital literacy"
+    ],
     "commitment": "4 hrs, Saturdays",
-    "availability": ["weekends", "flexible"],
-    "base_urgency": 0.45
+    "availability": [
+      "weekends",
+      "flexible"
+    ],
+    "base_urgency": 0.45,
+    "org_url": "https://www.codetenderloin.org"
   },
   {
     "opportunity_id": "banptc-data-dashboard-volunteer",
@@ -161,11 +300,23 @@
     "neighborhood": "South of Market",
     "lat": 37.7785,
     "lng": -122.4056,
-    "needed_skills": ["data analysis", "software engineering", "project management", "data science"],
-    "causes": ["digital literacy", "community safety"],
+    "needed_skills": [
+      "data analysis",
+      "software engineering",
+      "project management",
+      "data science"
+    ],
+    "causes": [
+      "digital literacy",
+      "community safety"
+    ],
     "commitment": "3 hrs/week, flexible",
-    "availability": ["flexible", "weekday evenings"],
-    "base_urgency": 0.35
+    "availability": [
+      "flexible",
+      "weekday evenings"
+    ],
+    "base_urgency": 0.35,
+    "org_url": "https://www.baynptech.org"
   },
   {
     "opportunity_id": "sf-parks-alliance-cleanup-crew",
@@ -175,11 +326,22 @@
     "neighborhood": "Inner Richmond",
     "lat": 37.7805,
     "lng": -122.4636,
-    "needed_skills": ["physical labor", "gardening", "teamwork", "organization"],
-    "causes": ["climate", "climate action"],
+    "needed_skills": [
+      "physical labor",
+      "gardening",
+      "teamwork",
+      "organization"
+    ],
+    "causes": [
+      "climate",
+      "climate action"
+    ],
     "commitment": "3 hrs, Saturday mornings",
-    "availability": ["weekends"],
-    "base_urgency": 0.3
+    "availability": [
+      "weekends"
+    ],
+    "base_urgency": 0.3,
+    "org_url": "https://www.sfparksalliance.org"
   },
   {
     "opportunity_id": "friends-urban-forest-tree-care",
@@ -189,11 +351,22 @@
     "neighborhood": "Bernal Heights",
     "lat": 37.7385,
     "lng": -122.4144,
-    "needed_skills": ["gardening", "landscaping", "physical labor", "teamwork"],
-    "causes": ["climate", "climate action"],
+    "needed_skills": [
+      "gardening",
+      "landscaping",
+      "physical labor",
+      "teamwork"
+    ],
+    "causes": [
+      "climate",
+      "climate action"
+    ],
     "commitment": "3 hrs, weekend mornings",
-    "availability": ["weekends"],
-    "base_urgency": 0.3
+    "availability": [
+      "weekends"
+    ],
+    "base_urgency": 0.3,
+    "org_url": "https://www.fuf.net"
   },
   {
     "opportunity_id": "sf-spca-dog-walker",
@@ -203,11 +376,22 @@
     "neighborhood": "Mission",
     "lat": 37.7605,
     "lng": -122.4139,
-    "needed_skills": ["animal handling", "physical labor", "reliability", "compassion"],
-    "causes": ["animal welfare"],
+    "needed_skills": [
+      "animal handling",
+      "physical labor",
+      "reliability",
+      "compassion"
+    ],
+    "causes": [
+      "animal welfare"
+    ],
     "commitment": "2 hrs/week, flexible",
-    "availability": ["flexible", "weekday evenings"],
-    "base_urgency": 0.3
+    "availability": [
+      "flexible",
+      "weekday evenings"
+    ],
+    "base_urgency": 0.3,
+    "org_url": "https://www.sfspca.org"
   },
   {
     "opportunity_id": "muttville-foster-coordinator",
@@ -217,11 +401,22 @@
     "neighborhood": "Portola",
     "lat": 37.728,
     "lng": -122.4085,
-    "needed_skills": ["organization", "communication", "animal handling", "case management"],
-    "causes": ["animal welfare", "seniors"],
+    "needed_skills": [
+      "organization",
+      "communication",
+      "animal handling",
+      "case management"
+    ],
+    "causes": [
+      "animal welfare",
+      "seniors"
+    ],
     "commitment": "3 hrs/week, flexible",
-    "availability": ["flexible"],
-    "base_urgency": 0.3
+    "availability": [
+      "flexible"
+    ],
+    "base_urgency": 0.3,
+    "org_url": "https://muttville.org"
   },
   {
     "opportunity_id": "iiba-esl-conversation-partner",
@@ -231,11 +426,24 @@
     "neighborhood": "Civic Center",
     "lat": 37.7793,
     "lng": -122.4193,
-    "needed_skills": ["teaching", "spanish", "mandarin", "communication", "patience"],
-    "causes": ["immigrant support", "education access"],
+    "needed_skills": [
+      "teaching",
+      "spanish",
+      "mandarin",
+      "communication",
+      "patience"
+    ],
+    "causes": [
+      "immigrant support",
+      "education access"
+    ],
     "commitment": "1.5 hrs/week, weekday evenings",
-    "availability": ["weekday evenings", "flexible"],
-    "base_urgency": 0.4
+    "availability": [
+      "weekday evenings",
+      "flexible"
+    ],
+    "base_urgency": 0.4,
+    "org_url": "https://iibayarea.org"
   },
   {
     "opportunity_id": "catholic-charities-intake-assistant",
@@ -245,10 +453,21 @@
     "neighborhood": "Mission",
     "lat": 37.7592,
     "lng": -122.4158,
-    "needed_skills": ["case management", "spanish", "organization", "communication"],
-    "causes": ["immigrant support", "community safety"],
+    "needed_skills": [
+      "case management",
+      "spanish",
+      "organization",
+      "communication"
+    ],
+    "causes": [
+      "immigrant support",
+      "community safety"
+    ],
     "commitment": "4 hrs/week, weekday afternoons",
-    "availability": ["weekday afternoons"],
-    "base_urgency": 0.45
+    "availability": [
+      "weekday afternoons"
+    ],
+    "base_urgency": 0.45,
+    "org_url": "https://www.catholiccharitiessf.org"
   }
 ]

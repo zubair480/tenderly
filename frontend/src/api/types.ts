@@ -22,6 +22,7 @@ export interface Match {
   score: number;
   urgency: Urgency;
   why_you: string | null;
+  org_url: string | null;
 }
 
 export interface MatchesResponse {

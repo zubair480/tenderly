@@ -64,6 +64,31 @@ def test_inline_label_format_is_parsed_like_the_frontends_sample_button():
     assert profile["skills"] == ["project coordination", "technical support", "spanish"]
 
 
+def test_name_extracted_when_pdf_collapses_header_into_one_line():
+    # pypdf commonly collapses a resume's name + GitHub/LinkedIn/phone/email
+    # header into a single line with no newlines. The whole line clearly
+    # isn't just a name, but a name-shaped word run still starts it.
+    header = (
+        "Muhammad Zubair Zafar github.com/zubair480 | linkedin.com/in/zubair480 "
+        "| (217) 790 8056 | zubairzafar480@gmail.com | 94103, SF EDUCATION "
+        "Eastern Illinois University, IL"
+    )
+    profile = build_fallback_profile(header, [])
+    assert profile["name"] == "Muhammad Zubair Zafar"
+
+
+def test_skills_subcategory_label_is_stripped_not_fused_with_value():
+    text = "SKILLS\nLanguages: Python, TypeScript, Java"
+    profile = build_fallback_profile(text, [])
+    assert profile["skills"] == ["python", "typescript", "java"]
+
+
+def test_multiple_skill_subcategories_on_separate_lines_dont_fuse():
+    text = "SKILLS\nLanguages: Python, Java\nTools: Git, Docker"
+    profile = build_fallback_profile(text, [])
+    assert profile["skills"] == ["python", "java", "git", "docker"]
+
+
 def test_empty_resume_uses_generic_summary():
     profile = build_fallback_profile("", [])
     assert profile["name"] == "Volunteer"
