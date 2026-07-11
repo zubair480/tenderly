@@ -81,13 +81,15 @@ def _is_heading_line(line: str) -> bool:
     return len(stripped) <= 40 and stripped == stripped.upper() and any(c.isalpha() for c in stripped)
 
 
-def _extract_section(lines: list[str], heading_names: set[str]) -> str:
-    """Return the text following a heading matching one of `heading_names`.
+def _extract_section(lines: list[str], heading_names: set[str]) -> list[str]:
+    """Return the lines following a heading matching one of `heading_names`.
 
     Handles two common resume formats: the heading alone on its own line
     with content below (e.g. "SKILLS\\nPython, SQL, ..."), and an inline
     "Label: content" line (e.g. "Skills: project coordination, Spanish").
-    Returns "" if no such heading is found.
+    Returns [] if no such heading is found. Kept as separate lines (not
+    pre-joined) so callers can decide whether to join with "\\n" (preserving
+    per-line list boundaries) or " " (continuous prose).
     """
     for i, line in enumerate(lines):
         stripped = line.strip()
@@ -106,15 +108,20 @@ def _extract_section(lines: list[str], heading_names: set[str]) -> str:
                 break
             if candidate.strip():
                 collected.append(candidate.strip())
-        return " ".join(collected)
-    return ""
+        return collected
+    return []
 
 
 def _split_list_section(text: str) -> list[str]:
     parts = re.split(r"[,;\n]", text)
     cleaned = []
     for part in parts:
-        item = part.strip().strip(".").strip().lower()
+        item = part.strip()
+        if ":" in item:
+            # Drop an inline sub-label like "Languages:" before the real
+            # items, e.g. "Languages: Python" -> "Python".
+            item = item.split(":", 1)[1].strip()
+        item = item.strip(".").strip().lower()
         if item:
             cleaned.append(item)
     return cleaned
@@ -128,20 +135,38 @@ def _first_sentences(text: str, max_sentences: int = 2, max_len: int = 280) -> s
     return result
 
 
+_NAME_WORD_RE = re.compile(r"^[A-Z][a-zA-Z'-]*\.?$")
+_NAME_BLOCKLIST = {"resume", "cv", "curriculum", "vitae", "resumé", "résumé", "profile"}
+
+
 def _extract_name(resume_text: str) -> str | None:
-    """A resume's first non-blank line is almost always the person's name."""
-    for line in resume_text.splitlines():
+    """Find a run of 2-4 Title-Case words at the start of an early line.
+
+    A resume's first non-blank line is almost always the person's name, but
+    pypdf frequently collapses an entire header (name, GitHub/LinkedIn
+    links, phone, email) into a single line with no newlines - a very
+    common resume layout. Requiring the *whole* line to look like a name
+    fails on real PDFs; instead this only requires a name-shaped word run
+    at the very start, and keeps scanning subsequent lines if the first
+    doesn't yield one (e.g. a "Resume" banner line before the real name).
+    """
+    for line in resume_text.splitlines()[:5]:
         stripped = line.strip()
         if not stripped:
             continue
-        words = stripped.split()
-        looks_like_name = (
-            1 < len(words) <= 4
-            and len(stripped) <= 40
-            and not any(ch.isdigit() for ch in stripped)
-            and all(all(ch.isalpha() or ch in "-'." for ch in w) for w in words)
-        )
-        return stripped if looks_like_name else None
+
+        # Cut at the first "|" or "," - common separators before contact
+        # links/location in a one-line header - before walking words.
+        first_segment = re.split(r"[|,]", stripped, maxsplit=1)[0].strip()
+
+        name_words = []
+        for word in first_segment.split():
+            if len(name_words) >= 4 or not _NAME_WORD_RE.match(word):
+                break
+            name_words.append(word)
+
+        if 1 < len(name_words) <= 4 and not all(w.lower() in _NAME_BLOCKLIST for w in name_words):
+            return " ".join(name_words)
     return None
 
 
@@ -157,18 +182,21 @@ def build_fallback_profile(resume_text: str, interests: list[str]) -> dict:
 
     name = _extract_name(resume_text) or "Volunteer"
 
-    skills_section = _extract_section(lines, SKILLS_HEADINGS)
-    if skills_section:
-        skills = _split_list_section(skills_section)[:8]
+    skills_lines = _extract_section(lines, SKILLS_HEADINGS)
+    if skills_lines:
+        # Joined with "\n" (not " ") so a per-line split still separates
+        # multiple sub-categories, e.g. "Languages: Python, Java\nTools: Git"
+        # doesn't fuse "Java" and "Tools:" together.
+        skills = _split_list_section("\n".join(skills_lines))[:8]
     else:
         text_lower = resume_text.lower()
         skills = [s for s in KNOWN_SKILLS if s in text_lower][:8]
     if not skills:
         skills = ["teamwork", "communication", "reliability"]
 
-    summary_section = _extract_section(lines, SUMMARY_HEADINGS)
-    if summary_section:
-        summary = _first_sentences(summary_section)
+    summary_lines = _extract_section(lines, SUMMARY_HEADINGS)
+    if summary_lines:
+        summary = _first_sentences(" ".join(summary_lines))
     else:
         stripped = resume_text.strip().replace("\n", " ")
         if stripped:
@@ -176,8 +204,8 @@ def build_fallback_profile(resume_text: str, interests: list[str]) -> dict:
         else:
             summary = "Experienced volunteer ready to help San Francisco communities."
 
-    causes_section = _extract_section(lines, CAUSES_HEADINGS)
-    resume_causes = _split_list_section(causes_section) if causes_section else []
+    causes_lines = _extract_section(lines, CAUSES_HEADINGS)
+    resume_causes = _split_list_section("\n".join(causes_lines)) if causes_lines else []
     causes = [c.strip() for c in interests if c.strip()] or list(resume_causes) or ["community"]
     existing_lower = {c.lower() for c in causes}
     for cause in resume_causes:
